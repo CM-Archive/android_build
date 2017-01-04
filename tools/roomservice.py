@@ -22,7 +22,7 @@ from xml.etree import ElementTree
 
 product = sys.argv[1];
 device = product[product.index("_") + 1:]
-print "Device %s not found. Attempting to retrieve device repository from CyanogenMod Github (http://github.com/CyanogenMod)." % device
+print "Device %s not found. Attempting to retrieve device repository from CM-Archive Github (http://github.com/CM-Archive)." % device
 
 repositories = []
 
@@ -38,7 +38,7 @@ except:
 
 page = 1
 while True:
-    githubreq = urllib2.Request("https://api.github.com/users/CyanogenMod/repos?per_page=100&page=%d" % page)
+    githubreq = urllib2.Request("https://api.github.com/users/CM-Archive/repos?per_page=100&page=%d" % page)
     if githubauth:
         githubreq.add_header("Authorization","Basic %s" % githubauth)
     result = json.loads(urllib2.urlopen(githubreq).read())
@@ -85,7 +85,7 @@ for repository in repositories:
                 sys.exit()
 
         repo_path = "device/%s/%s" % (manufacturer, device)
-        project = ElementTree.Element("project", attrib = { "path": repo_path, "remote": "github", "name": "CyanogenMod/%s" % repository['name'], "revision": "gingerbread" })
+        project = ElementTree.Element("project", attrib = { "path": repo_path, "remote": "github", "name": "CM-Archive/%s" % repository['name'], "revision": "gingerbread" })
         lm.append(project)
 
         indent(lm, 0)
@@ -101,4 +101,4 @@ for repository in repositories:
         print "Done!"
         sys.exit()
 
-print "Repository for %s not found in the CyanogenMod Github repository list. If this is in error, you may need to manually add it to your local_manifests/roomservice.xml." % device
+print "Repository for %s not found in the CM-Archive Github repository list. If this is in error, you may need to manually add it to your local_manifests/roomservice.xml." % device
